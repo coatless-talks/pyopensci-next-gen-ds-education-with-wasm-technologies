@@ -16,13 +16,14 @@ format:
     pyodide:
       packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
 
-engine: knitr
 revealjs-plugins:
   - drop
 editor: source
 callout-appearance: simple
 code-annotations: hover
 ---
+
+
 
 # \> Who are you?\_ {.empty}
 
@@ -125,11 +126,9 @@ Say hello to [Pyodide](https://pyodide.org/en/stable/) through [Quarto Live](htt
 squares = [x**2 for x in range(______)]
 squares
 ```
-
 ```{pyodide}
 #| exercise: ex_basic_a
 #| check: true
-print(result)
 feedback = None
 if len(result) > 5:
     feedback = {"correct": True, 
@@ -176,7 +175,7 @@ feedback # <6>
 
 
 
-## Explorable Mathematics {.smaller}
+## Explorable Mathematics
 
 Exploring the classic equation of a line: $y = ax + b$
 
@@ -905,6 +904,7 @@ plt.show() # <34>
 
 ## Explorable Data Clusters {.smaller}
 
+:::{.panel-tabset}
 ### Live Output
 ```{ojs}
 //| echo: false
@@ -924,7 +924,6 @@ viewof n_clusters_penguins = Inputs.range([2, 5], {
   label: "Number of clusters:"
 })
 ```
-:::
 
 ```{pyodide}
 #| autorun: true
