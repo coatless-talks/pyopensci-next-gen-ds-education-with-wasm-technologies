@@ -15,7 +15,8 @@ format:
       packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
     pyodide:
       packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
-    
+
+engine: knitr
 revealjs-plugins:
   - drop
 editor: source
