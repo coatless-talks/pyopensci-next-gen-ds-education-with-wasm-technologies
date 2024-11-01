@@ -1470,7 +1470,19 @@ For each new project, you will need to install the extensions again.
    ---
    ```
 
+## Some Limitations 
 
+- Technical Constraints
+    - Not all Python/R packages work in WebAssembly
+    - Browser memory limits affect large computations
+    - Initial load times can be significant
+    - File system access is restricted
+- Development
+    - Debugging is more challenging
+    - Error messages may be less helpful
+    - Package versions must be WebAssembly-compatible
+- Interactive Elements
+    - Limited widget support compared to Jupyter
 
 ## Resources
 
