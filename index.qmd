@@ -47,6 +47,8 @@ code-annotations: hover
 :::
 :::
 
+# Learning the Unknown
+
 ## Learning Laboratory
 
 > "It shouldn't be a static thing; it should be one where people learn what's happening. **And the only way to learn what's happening is to change what's happening.**"
@@ -280,6 +282,7 @@ Woah? What's this?
   - In the last cell, we imported [Bret Victor's `Tangle` library](https://worrydream.com/Tangle/) that was [ported to Observable](https://observablehq.com/@mbostock/tangle) by [Mike Bostock](https://observablehq.com/@mbostock) (creator of Observable) to create a slider for the `a` and `b` parameters.
 - Slider input can be used to update the Python code **across the entire document** in real-time.
 
+# Explorables
 
 ## Explorable Graphs: Histogram Bins {.smaller}
 
@@ -1398,7 +1401,9 @@ feedback # <12>
 - Source code available on [GitHub](https://github.com/coatless-tutorials/next-gen-data-science-education-wasm).
 
 
-## Implementation Tips - Installation
+# Implementation Tips
+
+## Installation
 
 1. **Install Quarto**: <https://quarto.org>
 
@@ -1414,61 +1419,75 @@ Quarto extensions are installed only in the current project scope.
 For each new project, you will need to install the extensions again.
 :::
 
-## Implementation Tips - Document
+## Document Setup
 
-1. **Document Setup**
-   ```yaml
-   ---
-   format: 
-        live-revealjs:
-            scrollable: true
-            smaller: true
-            pyodide:
-                packages: ['numpy', 'matplotlib']
-   ---
-   ```
+:::{.callout-important}
+The `pyodide` section is used to specify Python packages to load in the WebAssembly environment. This ensures that the required packages are available for Python code execution before the code cells are unlocked for students to explore.
+:::
 
-2. **Tangle Integration**
-   ````md
-   ```{{ojs}}
-   import {Tangle} from "@mbostock/tangle"
-   viewof var = Inputs.range([min, max], {
-     step: 0.1,
-     value: initial,
-     label: "Variable:"
-   })
-   varTangle = Inputs.bind(Tangle({min: min, max: max, step: 0.1}), viewof var)
-   ```
-   ````
+```yaml
+---
+format: 
+    live-revealjs:
+        scrollable: true
+        smaller: true
+        pyodide:
+            packages: ['numpy', 'matplotlib']
+---
+```
 
-3. **Python Integration**
-   ````md
-   ```{{pyodide}}
-   #| input:
-   #|   - var
-   # Your Python code using var
-   ```
-   ````
+## Code Cells
+
+**Tangle Integration**
+
+````md
+```{{ojs}}
+import {Tangle} from "@mbostock/tangle"
+viewof var = Inputs.range([min, max], {
+    step: 0.1,
+    value: initial,
+    label: "Variable:"
+})
+varTangle = Inputs.bind(Tangle({min: min, max: max, step: 0.1}), viewof var)
+```
+````
+
+**Python Integration**
+
+````md
+```{{pyodide}}
+#| input:
+#|   - var
+# Your Python code using var
+```
+````
+
 
 ## And that in-slide IDE ... 
 
-1. **Document Header Setup**
-   ```{.yaml}
-   #| code-lines-highlight: 6-8,11-12
-   ---
-   format: 
-        live-revealjs:
-            scrollable: true
-            smaller: true
-            drop: 
-                engine: pyodide
-                packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
-            pyodide:
-                packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
-    revealjs-plugins:
-    - drop
-   ---
-   ```
+:::{.callout-note}
+- The `quarto-drop` extension uses the `drop` key to specify options for the in-slide IDE for students to interact with the code cells.
+- While `quarto-live` uses the `pyodide` section to specify  WebAssembly environment.
+:::
+
+**Document Header Setup**
+```{.yaml code-line-numbers="6-8,11-12"}
+---
+format: 
+    live-revealjs:
+        scrollable: true
+        smaller: true
+        drop: 
+            engine: pyodide
+            packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+        pyodide:
+            packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+revealjs-plugins:
+- drop
+---
+```
+
+# Concluding
 
 ## Some Limitations 
 
