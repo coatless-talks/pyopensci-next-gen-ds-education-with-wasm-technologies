@@ -1,0 +1,1494 @@
+---
+title: "Next Generation Data Science Education "
+subtitle: "pyOpenSci Fall Festival 2024"
+author: "James Balamuta"
+date: "2024-11-01"
+format: 
+  stanford-revealjs: 
+    transition: fade
+    background-transition: slide
+    slide-number: true
+    smaller: true
+    scrollable: true
+    drop:
+      engine: pyodide
+      packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+    pyodide:
+      packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+    
+revealjs-plugins:
+  - drop
+editor: source
+callout-appearance: simple
+code-annotations: hover
+---
+
+# \> Who are you?\_ {.empty}
+
+![](images/hello-my-name-is-james.png){fig-alt="Classic hello greeting sticker containing the text \"Hello, my name is James\"" fig-align="center" width="400"}
+
+## Who am I? 
+
+::: columns
+::: {.column width="38%"}
+![Dr. James Balamuta (he/him)](images/jjb.jpeg){fig-alt="Photo of Dr. James Balamuta flying a drone next to the Alma mater" fig-align="center" width="250"}
+:::
+
+::: {.column width="55%"}
+-   Founder, HJJB LLC + Stealth AI Startups
+-   [Adjunct Lecturer, Department of Statistics \@ Stanford](https://profiles.stanford.edu/james-balamuta)
+-   Retired Visiting Assistant Prof. & Graduate Student Instructor, Department of Statistics \@ UIUC
+-   Builder of Quarto Extensions
+    - [`quarto-webr`](https://github.com/coatless/quarto-webr) & [`quarto-pyodide`](https://github.com/coatless-quarto/pyodide)
+-   [DTI \@ Illinois Affiliate](https://dti.techservices.illinois.edu/)
+-   [GitHub](https://github.com/coatless) \| [Website](https://blog.thecoatlessprofessor.com/)
+:::
+:::
+
+## Learning Laboratory
+
+> "It shouldn't be a static thing; it should be one where people learn what's happening. **And the only way to learn what's happening is to change what's happening.**"
+> 
+> — [Frank Oppenheimer](https://en.wikipedia.org/wiki/Exploratorium#History) in ["Exploratorium"](https://www.exploratorium.edu/video/exploratorium-jon-boorstin) by Jon Boorstin (1974) at ~13:22
+
+:::{.columns}
+:::{.column}
+
+
+![[Exploratorium](https://www.exploratorium.edu/) at [Pier 15](https://maps.app.goo.gl/hFyvcLsucynXewnz6) in San Francisco](images/Main_Entrance_to_the_Exploratorium_at_Pier_15.jpg){fig-alt="Main entrance to the Exploratorium at Pier 15" fig-align="center" width="600"}
+:::
+
+:::{.column}
+1. Direct manipulation of concepts
+2. Immediate visual feedback
+3. Personal discovery
+4. Enhanced retention
+:::
+:::
+
+## Active Learning
+
+-   **What is Active Learning?**
+    -   A pedagogical approach that engages students in the learning process through activities and/or discussion.
+-   **Why Active Learning?**
+    -   Increases student engagement
+    -   Improves retention
+    -   Enhances understanding
+-  **How to Implement Active Learning?**
+    -   **Explorable Explanations**
+
+## Explorable Explanations
+
+> "People currently think of text as _information to be consumed_. I want text to be used as an _environment to think in_."
+>
+> -- Bret Victor in [Explorable Explanations](https://worrydream.com/ExplorableExplanations/), 2011
+
+- 🔄 **Reactive Documents:** Play with authors' assumptions and see consequences
+- 🎮 **Interactive Examples:** Make abstract concepts concrete through direct manipulation
+- 🔍 **Contextual Information:** Verify claims and explore related ideas in real-time
+
+## Attempts, I've had a few ... 
+
+![](images/tweet-shiny-with-learnr.png){fig-alt="Tweet from James Balamuta on the challenges of using learnr with Shiny Server" fig-align="center" width="600"}
+
+[Me in ~2018](https://twitter.com/axiomsofxyz/status/999487130463277056) thinking [`learnr`](https://rstudio.github.io/learnr/articles/formats.html) + **Shiny Server** + 100 students = 😱
+
+**Why?** Unstable at scale and required a dedicated + licensed server.
+
+## Explorable Environments
+
+Three key pieces of technology:
+
+1. [**Pyodide**](https://pyodide.org/en/stable/): Python in the Browser **without** a server
+2. [**Observable**](https://observablehq.com/): Interactive JavaScript for Data Exploration
+3. [**Quarto Live**](https://github.com/r-wasm/quarto-live): Official Quarto Extension for Interactivity in Notebooks
+   - Or, use the community version [**quarto-pyodide**](https://github.com/coatless-quarto/pyodide).
+
+:::{.callout-note .fragment}
+A bonus piece of technology is [**Quarto Drop**](https://github.com/r-wasm/quarto-drop/): In-slide IDE, press the tilda \` key to open.
+:::
+
+
+## 🐍 Python in the Browser
+
+{{< countdown "01:30" top="10px" right="5px">}}
+
+Say hello to [Pyodide](https://pyodide.org/en/stable/) through [Quarto Live](https://r-wasm.github.io/quarto-live/).
+
+:::{.panel-tabset}
+### Live Output
+
+```{pyodide}
+#| exercise: ex_basic_a
+# Try different values in the list comprehensions
+squares = [x**2 for x in range(______)]
+squares
+```
+
+```{pyodide}
+#| exercise: ex_basic_a
+#| check: true
+print(result)
+feedback = None
+if len(result) > 5:
+    feedback = {"correct": True, 
+               "message": "Great! You created a longer sequence!"}
+else:
+    feedback = {"correct": False, 
+               "message": "Try using a larger number in range()"}
+feedback
+```
+
+### Markdown Source
+
+```{{pyodide}}
+#| exercise: ex_basic # <1>
+# Try different values in the list comprehensions # <2>
+squares = [x**2 for x in range(____)] # <3>
+squares # <4>
+```
+1. Defines a Quarto Live cell attribute specifying this as an exercise named `ex_basic`
+2. Provides a comment guiding the user to experiment with different values
+3. Creates a list comprehension that squares numbers from 0 to a value the user needs to fill in
+4. Displays the resulting squares list
+
+```{{pyodide}}
+#| exercise: ex_basic # <1>
+#| check: true # <2>
+feedback = None # <3>
+if len(result) > 5: # <4>
+ feedback = {"correct": True, # <4>
+ "message": "Great! You created a longer sequence!"} # <4>
+else: # <5>
+ feedback = {"correct": False, # <5>
+ "message": "Try using a larger number in range()"} # <5>
+feedback # <6>
+```
+1. Defines a Quarto Live cell attribute specifying this as part of the `ex_basic` exercise
+2. Specifies that this cell checks or "grades" the exercise result
+3. Initializes a feedback variable as being empty
+4. Checks if the length of the result is greater than 5, if true set feedback to indicate correct answer
+5. Sets feedback to indicate incorrect answer and provide hint
+6. Displays the feedback dictionary
+
+:::
+
+
+
+## Explorable Mathematics {.smaller}
+
+Exploring the classic equation of a line: $y = ax + b$
+
+:::{.panel-tabset}
+### Live Output
+$a =$ `{ojs} aParam` and $b =$ `{ojs} bParam`,
+
+
+
+```{ojs}
+//| echo: false
+import {Tangle} from "@mbostock/tangle"
+
+// Setup Tangle reactive inputs
+viewof a = Inputs.input(1);
+viewof b = Inputs.input(0);
+aParam = Inputs.bind(Tangle({min: -5, max: 5, minWidth: "1em", step: 0.1}), viewof a);
+bParam = Inputs.bind(Tangle({min: -10, max: 10, minWidth: "1em", step: 0.2}), viewof b);
+```
+
+```{pyodide}
+#| echo: false
+#| autorun: true
+#| input: 
+#|   - a
+#|   - b
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 10, 100)
+y = a * x + b
+
+plt.figure(figsize=(8, 4))
+plt.plot(x, y)
+plt.grid(True)
+plt.title(f'Linear Function: y = {a}x + {b}')
+plt.show()
+```
+### Markdown Source
+
+```{{md}}
+$a =$ `{{ojs}} aParam` and $b =$ `{{ojs}} bParam`, # <1>
+```
+1. Displays the current values of parameters a and b using Observable JS variables in a math context
+
+```{{ojs}}
+//| echo: false # <1>
+import {Tangle} from "@mbostock/tangle" # <2>
+// Setup Tangle reactive inputs # <3>
+viewof a = Inputs.input(1); # <4>
+viewof b = Inputs.input(0); # <5>
+aParam = Inputs.bind(Tangle({min: -5, max: 5, minWidth: "1em", step: 0.1}), viewof a); # <6>
+bParam = Inputs.bind(Tangle({min: -10, max: 10, minWidth: "1em", step: 0.2}), viewof b); # <7>
+```
+1. Hides the code cell from output
+2. Imports the Tangle library for interactive inputs
+3. Comment indicating setup of reactive inputs
+4. Creates an input view for parameter 'a' with initial value 1
+5. Creates an input view for parameter 'b' with initial value 0
+6. Binds parameter 'a' to a Tangle input with range [-5,5] and step size 0.1
+7. Binds parameter 'b' to a Tangle input with range [-10,10] and step size 0.2
+
+```{{pyodide}}
+#| echo: false # <1>
+#| autorun: true # <2>
+#| input: # <3>
+#| - a # <4>
+#| - b # <5>
+import numpy as np # <6>
+import matplotlib.pyplot as plt # <7>
+x = np.linspace(0, 10, 100) # <8>
+y = a * x + b # <9>
+plt.figure(figsize=(8, 4)) # <10>
+plt.plot(x, y) # <11>
+plt.grid(True) # <12>
+plt.title(f'Linear Function: y = {a}x + {b}') # <13>
+plt.show() # <14>
+```
+1. Hides the code cell from output
+2. Automatically runs the cell when inputs change
+3. Specifies input parameters
+4. First input parameter 'a'
+5. Second input parameter 'b'
+6. Imports NumPy for numerical operations
+7. Imports Matplotlib for plotting
+8. Creates x-values array from 0 to 10 with 100 points
+9. Calculates y-values using linear function ax + b
+10. Creates a new figure with specified size
+11. Plots x versus y values
+12. Adds grid to the plot
+13. Sets the plot title showing the current function
+14. Displays the plot
+:::
+
+
+## Reactive Programming
+
+Woah? What's this?
+
+- **Quarto Live** documents make extensive use of Quarto's built-in [Observable support](https://quarto.org/docs/interactive/ojs/).
+- Any [Observable notebook](https://observablehq.com/documentation/notebooks/) or JavaScript library can be [imported](https://observablehq.com/framework/imports) in a Quarto document cell.
+  - In the last cell, we imported [Bret Victor's `Tangle` library](https://worrydream.com/Tangle/) that was [ported to Observable](https://observablehq.com/@mbostock/tangle) by [Mike Bostock](https://observablehq.com/@mbostock) (creator of Observable) to create a slider for the `a` and `b` parameters.
+- Slider input can be used to update the Python code **across the entire document** in real-time.
+
+
+## Explorable Graphs: Histogram Bins {.smaller}
+
+:::{.panel-tabset}
+
+### Live Output
+```{ojs}
+//| echo: false
+viewof n_bins = Inputs.range([5, 1000], {
+  step: 1,
+  value: 20,
+  label: "Number of bins:"
+})
+```
+
+```{pyodide}
+#| autorun: true
+#| echo: false
+#| edit: false
+#| input:
+#|   - n_bins
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Generate random data
+rng = np.random.RandomState(2021)
+data = rng.normal(0, 1, 1000)
+
+plt.figure(figsize=(8, 4))
+plt.hist(data, bins=n_bins)
+plt.title(f'Normal Distribution with {n_bins} bins')
+plt.show()
+```
+
+### Markdown Source
+
+```{{ojs}}
+//| echo: false  # <1>
+viewof n_bins = Inputs.range([5, 1000], { # <2>
+step: 1, # <3>
+value: 20, # <4>
+label: "Number of bins:" # <5>
+})
+```
+1. Hides the code cell from output
+2. Creates an interactive range slider for number of bins
+3. Sets the increment step size to 1
+4. Sets the initial value to 20 bins
+5. Adds a label to describe the input control
+
+```{{pyodide}}
+#| autorun: true # <1>
+#| echo: false # <2>
+#| input: # <3>
+#| - n_bins # <4>
+import numpy as np # <5>
+import matplotlib.pyplot as plt # <6>
+import seaborn as sns # <7>
+# Generate random data # <8>
+rng = np.random.RandomState(2021) # <9>
+data = rng.normal(0, 1, 1000) # <9>
+plt.figure(figsize=(8, 4)) # <10>
+plt.hist(data, bins=n_bins) # <11>
+plt.title(f'Normal Distribution with {n_bins} bins') # <12>
+plt.show() # <13>
+```
+1. Automatically runs the cell when the input changes
+2. Prevents the code cell from being shown
+3. Specifies input parameters section
+4. Declares n_bins as an input parameter
+5. Imports NumPy for numerical operations
+6. Imports Matplotlib for plotting
+7. Imports Seaborn for statistical visualization
+8. Comments the data generation step
+9. Generates 1000 random numbers from a normal distribution
+10. Creates a new figure with specified size
+11. Creates a histogram with user-specified number of bins
+12. Sets the plot title showing current number of bins
+13. Displays the plot
+:::
+
+## Explorable Biostatistics: Contigency
+
+:::{.panel-tabset}
+### Live Output
+```{ojs}
+//| echo: false
+// Initialize the 2x2 table cells with Tangle inputs
+viewof a11 = Inputs.input(20);
+viewof a12 = Inputs.input(15);
+viewof a21 = Inputs.input(10);
+viewof a22 = Inputs.input(25);
+
+// Create Tangle bindings for each cell
+cell11 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a11);
+cell12 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a12);
+cell21 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a21);
+cell22 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a22);
+
+// Calculate row and column totals
+row1_total = a11 + a12
+row2_total = a21 + a22
+col1_total = a11 + a21
+col2_total = a12 + a22
+table_total = row1_total + row2_total
+```
+
+Drag the numbers to adjust the cell values and see how they affect the odds ratio:
+
+|              | Exposed     | Not Exposed | Total        |
+|--------------|-------------:|-------------:|--------------:|
+| Cases        | `{ojs} cell11`    | `{ojs} cell12`    | `{ojs} row1_total` |
+| Controls     | `{ojs} cell21`    | `{ojs} cell22`    | `{ojs} row2_total` |
+| Total        | `{ojs} col1_total`| `{ojs} col2_total`| `{ojs} table_total`|
+
+Calculations: 
+
+```{pyodide}
+#| autorun: true
+#| echo: false
+#| input: 
+#|   - a11
+#|   - a12
+#|   - a21
+#|   - a22
+import numpy as np
+from scipy import stats
+
+def analyze_contingency(a11, a12, a21, a22):
+    # Create contingency table
+    table = np.array([[a11, a12], [a21, a22]])
+    
+    # Calculate odds ratio
+    odds_ratio = (a11 * a22) / (a12 * a21)
+    
+    # Calculate 95% CI for odds ratio
+    log_or = np.log(odds_ratio)
+    se_log_or = np.sqrt(1/a11 + 1/a12 + 1/a21 + 1/a22)
+    ci_lower = np.exp(log_or - 1.96 * se_log_or)
+    ci_upper = np.exp(log_or + 1.96 * se_log_or)
+    
+    # Perform chi-square test
+    chi2, p_value = stats.chi2_contingency(table)[0:2]
+    
+    return {
+        'odds_ratio': odds_ratio,
+        'ci_lower': ci_lower,
+        'ci_upper': ci_upper,
+        'chi2': chi2,
+        'p_value': p_value
+    }
+
+results = analyze_contingency(a11, a12, a21, a22)
+
+print(f"Odds Ratio: {results['odds_ratio']:.2f}")
+print(f"95% CI: ({results['ci_lower']:.2f}, {results['ci_upper']:.2f})")
+print(f"Chi-square statistic: {results['chi2']:.2f}")
+print(f"P-value: {results['p_value']:.4f}")
+```
+
+### Markdown Source
+
+```{{ojs}}
+//| echo: false # <1>
+// Initialize the 2x2 table cells with Tangle inputs # <2>
+viewof a11 = Inputs.input(20); # <3>
+viewof a12 = Inputs.input(15); # <4>
+viewof a21 = Inputs.input(10); # <5>
+viewof a22 = Inputs.input(25); # <6>
+// Create Tangle bindings for each cell # <7>
+cell11 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a11); # <8>
+cell12 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a12); # <9>
+cell21 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a21); # <10>
+cell22 = Inputs.bind(Tangle({min: 0, max: 100, minWidth: "3em", step: 1}), viewof a22); # <11>
+// Calculate row and column totals # <12>
+row1_total = a11 + a12 # <13>
+row2_total = a21 + a22 # <14>
+col1_total = a11 + a21 # <15>
+col2_total = a12 + a22 # <16>
+table_total = row1_total + row2_total # <17>
+```
+1. Hides the code cell from output
+2. Comment indicating initialization of table cell inputs
+3. Creates input view for cell (1,1) with initial value 20
+4. Creates input view for cell (1,2) with initial value 15
+5. Creates input view for cell (2,1) with initial value 10
+6. Creates input view for cell (2,2) with initial value 25
+7. Comment indicating creation of Tangle bindings
+8. Binds cell (1,1) to Tangle input with range [0,100]
+9. Binds cell (1,2) to Tangle input with range [0,100]
+10. Binds cell (2,1) to Tangle input with range [0,100]
+11. Binds cell (2,2) to Tangle input with range [0,100]
+12. Comment indicating calculation of totals
+13. Calculates first row total
+14. Calculates second row total
+15. Calculates first column total
+16. Calculates second column total
+17. Calculates overall table total
+
+```{{pyodide}}
+#| autorun: true # <1>
+#| echo: false # <2>
+#| input: # <3>
+#| - a11 # <4>
+#| - a12 # <5>
+#| - a21 # <6>
+#| - a22 # <7>
+import numpy as np # <8>
+from scipy import stats # <9>
+def analyze_contingency(a11, a12, a21, a22): # <10>
+ # Create contingency table # <11>
+ table = np.array([[a11, a12], [a21, a22]]) # <12>
+ # Calculate odds ratio # <13>
+ odds_ratio = (a11 * a22) / (a12 * a21) # <14>
+ # Calculate 95% CI for odds ratio # <15>
+ log_or = np.log(odds_ratio) # <16>
+ se_log_or = np.sqrt(1/a11 + 1/a12 + 1/a21 + 1/a22) # <17>
+ ci_lower = np.exp(log_or - 1.96 * se_log_or) # <18>
+ ci_upper = np.exp(log_or + 1.96 * se_log_or) # <19>
+ # Perform chi-square test # <20>
+ chi2, p_value = stats.chi2_contingency(table)[0:2] # <21>
+ return { # <22>
+ 'odds_ratio': odds_ratio, # <23>
+ 'ci_lower': ci_lower, # <24>
+ 'ci_upper': ci_upper, # <25>
+ 'chi2': chi2, # <26>
+ 'p_value': p_value # <27>
+ }
+results = analyze_contingency(a11, a12, a21, a22) # <28>
+print(f"Odds Ratio: {results['odds_ratio']:.2f}") # <29>
+print(f"95% CI: ({results['ci_lower']:.2f}, {results['ci_upper']:.2f})") # <30>
+print(f"Chi-square statistic: {results['chi2']:.2f}") # <31>
+print(f"P-value: {results['p_value']:.4f}") # <32>
+```
+1. Automatically runs the cell when inputs change
+2. Hides the code cell from output
+3. Specifies input parameters section
+4. First input parameter a11
+5. Second input parameter a12
+6. Third input parameter a21
+7. Fourth input parameter a22
+8. Imports NumPy for numerical operations
+9. Imports scipy.stats for statistical tests
+10. Defines function to analyze contingency table
+11. Comments contingency table creation
+12. Creates 2x2 contingency table as NumPy array
+13. Comments odds ratio calculation
+14. Calculates odds ratio
+15. Comments confidence interval calculation
+16. Calculates log odds ratio
+17. Calculates standard error of log odds ratio
+18. Calculates lower confidence interval bound
+19. Calculates upper confidence interval bound
+20. Comments chi-square test
+21. Performs chi-square test and extracts statistics
+22. Begins return dictionary
+23. Includes odds ratio in results
+24. Includes lower CI bound in results
+25. Includes upper CI bound in results
+26. Includes chi-square statistic in results
+27. Includes p-value in results
+28. Calls analysis function with current values
+29. Prints formatted odds ratio
+30. Prints formatted confidence interval
+31. Prints formatted chi-square statistic
+32. Prints formatted p-value
+:::
+
+
+## Explorable Physics: Pendulum motion
+
+:::{.panel-tabset}
+### Live Output
+```{ojs}
+//| echo: false
+viewof length = Inputs.range([1, 10], {
+  step: 0.1,
+  value: 5,
+  label: "Pendulum Length (m)"
+})
+
+viewof gravity = Inputs.range([1, 15], {
+  step: 0.1,
+  value: 9.8,
+  label: "Gravity (m/s²)"
+})
+```
+
+```{pyodide}
+#| echo: false
+#| autorun: true
+#| input:
+#|   - length
+#|   - gravity
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Calculate period
+T = 2 * np.pi * np.sqrt(length/gravity)
+t = np.linspace(0, T*2, 1000)
+theta = 0.5 * np.sin(np.sqrt(gravity/length) * t)
+
+plt.figure(figsize=(10, 4))
+plt.plot(t, theta)
+plt.title(f'Pendulum Motion (Period: {T:.2f} s)')
+plt.xlabel('Time (s)')
+plt.ylabel('Angle (rad)')
+plt.grid(True)
+plt.show()
+```
+
+### Markdown Source
+
+```{{ojs}}
+//| echo: false
+viewof length = Inputs.range([1, 10], { # <1>
+step: 0.1, # <2>
+value: 5, # <3>
+label: "Pendulum Length (m)" # <4>
+})
+viewof gravity = Inputs.range([1, 15], { # <5>
+step: 0.1, # <6>
+value: 9.8, # <7>
+label: "Gravity (m/s²)" # <8>
+})
+```
+1. Creates a range slider for pendulum length between 1 and 10 meters
+2. Sets length increment step size to 0.1 meters
+3. Sets initial length value to 5 meters
+4. Adds label specifying length units
+5. Creates a range slider for gravity between 1 and 15 m/s²
+6. Sets gravity increment step size to 0.1 m/s²
+7. Sets initial gravity value to 9.8 m/s² (Earth's gravity)
+8. Adds label specifying gravity units
+
+```{{pyodide}}
+#| echo: false # <1>
+#| autorun: true # <2>
+#| input: # <3>
+#| - length # <4>
+#| - gravity # <5>
+import numpy as np # <6>
+import matplotlib.pyplot as plt # <7>
+# Calculate period # <8>
+T = 2 * np.pi * np.sqrt(length/gravity) # <9>
+t = np.linspace(0, T*2, 1000) # <10>
+theta = 0.5 * np.sin(np.sqrt(gravity/length) * t) # <11>
+plt.figure(figsize=(10, 4)) # <12>
+plt.plot(t, theta) # <13>
+plt.title(f'Pendulum Motion (Period: {T:.2f} s)') # <14>
+plt.xlabel('Time (s)') # <15>
+plt.ylabel('Angle (rad)') # <16>
+plt.grid(True) # <17>
+plt.show() # <18>
+```
+1. Hides the code cell from output
+2. Automatically runs the cell when inputs change
+3. Specifies input parameters section
+4. Declares length as first input parameter
+5. Declares gravity as second input parameter
+6. Imports NumPy for mathematical operations
+7. Imports Matplotlib for plotting
+8. Comments period calculation
+9. Calculates pendulum period using formula T = 2π√(L/g)
+10. Creates time array for two periods of motion
+11. Calculates angle using small-angle approximation
+12. Creates new figure with specified size
+13. Plots time vs angle
+14. Sets title showing current period
+15. Labels x-axis with units
+16. Labels y-axis with units
+17. Adds grid to plot
+18. Displays the plot
+:::
+
+## Explorable ML: k-means {.smaller}
+
+:::{.panel-tabset}
+### Live Output
+```{ojs}
+//| echo: false
+viewof n_clusters = Inputs.range([2, 8], {
+  step: 1,
+  value: 3,
+  label: "Number of clusters:"
+})
+```
+
+```{pyodide}
+#| autorun: true
+#| echo: false
+#| input:
+#|   - n_clusters
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Generate sample data
+X, _ = make_blobs(n_samples=300, centers=4, random_state=42)
+
+# Perform k-means clustering
+kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+labels = kmeans.fit_predict(X)
+
+# Plot results
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis')
+plt.scatter(kmeans.cluster_centers_[:, 0], 
+           kmeans.cluster_centers_[:, 1], 
+           marker='x', s=200, linewidths=3, 
+           color='r', label='Centroids')
+plt.title(f'K-means Clustering with {n_clusters} clusters')
+plt.legend()
+plt.show()
+```
+### Markdown Source
+
+```{{ojs}}
+//| echo: false
+viewof n_clusters = Inputs.range([2, 8], { # <1>
+step: 1, # <2>
+value: 3, # <3>
+label: "Number of clusters:" # <4>
+})
+```
+1. Creates an interactive range slider for the number of clusters between 2 and 8
+2. Sets the increment step size to 1
+3. Sets the initial value to 3 clusters
+4. Adds a descriptive label for the input control
+
+```{{pyodide}}
+#| autorun: true # <1>
+#| echo: false # <2>
+#| input: # <3>
+#| - n_clusters # <4>
+from sklearn.datasets import make_blobs # <5>
+from sklearn.cluster import KMeans # <6>
+import matplotlib.pyplot as plt # <7>
+# Generate sample data # <8>
+X, * = make*blobs(n_samples=300, centers=4, random_state=42) # <9>
+# Perform k-means clustering # <10>
+kmeans = KMeans(n_clusters=n_clusters, random_state=42) # <11>
+labels = kmeans.fit_predict(X) # <12>
+# Plot results # <13>
+plt.figure(figsize=(8, 6)) # <14>
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis') # <15>
+plt.scatter(kmeans.cluster_centers_[:, 0], # <16>
+ kmeans.cluster_centers_[:, 1], # <17>
+ marker='x', s=200, linewidths=3, # <18>
+ color='r', label='Centroids') # <19>
+plt.title(f'K-means Clustering with {n_clusters} clusters') # <20>
+plt.legend() # <21>
+plt.show() # <22>
+```
+1. Automatically runs the cell when input changes
+2. Hides the code cell from output
+3. Specifies input parameters section
+4. Declares n_clusters as an input parameter
+5. Imports make_blobs for generating synthetic data
+6. Imports KMeans clustering algorithm
+7. Imports Matplotlib for plotting
+8. Comments data generation step
+9. Creates synthetic dataset with 300 samples and 4 centers
+10. Comments clustering step
+11. Initializes KMeans with user-specified number of clusters
+12. Fits model and predicts cluster labels
+13. Comments plotting section
+14. Creates new figure with specified size
+15. Plots data points colored by cluster assignment
+16. Begins centroid plotting - x coordinates
+17. Continues centroid plotting - y coordinates
+18. Sets centroid marker style and size
+19. Sets centroid color and label
+20. Sets plot title showing current number of clusters
+21. Adds legend to plot
+22. Displays the plot
+:::
+
+## Explorable Data Sets
+
+:::{.panel-tabset}
+### Live Output
+
+```{ojs}
+//| echo: false
+viewof selected_species = Inputs.select(
+  ["Adelie", "Gentoo", "Chinstrap", "All"],
+  { value: "All", label: "Highlight Species:" }
+)
+```
+
+```{pyodide}
+#| fig-height: 5
+#| echo: false
+#| autorun: true
+#| input:
+#|   - selected_species
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Load penguins data
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv')
+penguins = penguins.dropna()
+
+# Create plot
+plt.figure(figsize=(10, 6))
+
+# Set alpha (transparency) based on selection
+penguins['alpha'] = 0.2  # default low transparency
+if selected_species == "All":
+    penguins['alpha'] = 0.7  # all visible
+else:
+    penguins.loc[penguins['species'] == selected_species, 'alpha'] = 0.9  # highlight selected
+
+# Create scatter plot
+for species in penguins['species'].unique():
+    mask = penguins['species'] == species
+    plt.scatter(
+        penguins.loc[mask, 'bill_length_mm'],
+        penguins.loc[mask, 'bill_depth_mm'],
+        label=species,
+        alpha=penguins.loc[mask, 'alpha'],
+        s=100
+    )
+
+plt.title('Palmer Penguins: Bill Dimensions by Species')
+plt.xlabel('Bill Length (mm)')
+plt.ylabel('Bill Depth (mm)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+### Markdown Source
+
+```{{ojs}}
+//| echo: false # <1>
+viewof selected_species = Inputs.select( # <2>
+ ["Adelie", "Gentoo", "Chinstrap", "All"], # <3>
+ { value: "All", label: "Highlight Species:" } # <4>
+)
+```
+1. Hides the code cell from output
+2. Creates a dropdown select input for penguin species
+3. Lists available species options including "All"
+4. Sets default value to "All" and adds descriptive label
+
+```{{pyodide}}
+#| fig-height: 5 # <1>
+#| echo: false # <2>
+#| autorun: true # <3>
+#| input: # <4>
+#| - selected_species # <5>
+import pandas as pd # <6>
+import seaborn as sns # <7>
+import matplotlib.pyplot as plt # <8>
+# Load penguins data # <9>
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv') # <10>
+penguins = penguins.dropna() # <11>
+# Create plot # <12>
+plt.figure(figsize=(10, 6)) # <13>
+# Set alpha (transparency) based on selection # <14>
+penguins['alpha'] = 0.2 # default low transparency # <15>
+if selected_species == "All": # <16>
+ penguins['alpha'] = 0.7 # all visible # <17>
+else: # <18>
+ penguins.loc[penguins['species'] == selected_species, 'alpha'] = 0.9 # highlight selected # <19>
+# Create scatter plot # <20>
+for species in penguins['species'].unique(): # <21>
+ mask = penguins['species'] == species # <22>
+ plt.scatter( # <23>
+ penguins.loc[mask, 'bill_length_mm'], # <24>
+ penguins.loc[mask, 'bill_depth_mm'], # <25>
+ label=species, # <26>
+ alpha=penguins.loc[mask, 'alpha'], # <27>
+ s=100 # <28>
+ )
+plt.title('Palmer Penguins: Bill Dimensions by Species') # <29>
+plt.xlabel('Bill Length (mm)') # <30>
+plt.ylabel('Bill Depth (mm)') # <31>
+plt.legend() # <32>
+plt.grid(True, alpha=0.3) # <33>
+plt.show() # <34>
+```
+1. Sets figure height to 5 units
+2. Hides code from output
+3. Automatically runs when input changes
+4. Specifies input parameters section
+5. Declares selected_species as input
+6. Imports pandas for data handling
+7. Imports seaborn for statistical visualization
+8. Imports matplotlib for plotting
+9. Comments data loading section
+10. Loads penguins dataset
+11. Removes rows with missing values
+12. Comments plot creation section
+13. Creates new figure with specified size
+14. Comments transparency section
+15. Sets default low transparency for all points
+16. Checks if all species are selected
+17. Sets medium transparency for all points if "All" selected
+18. Starts else block for specific species selection
+19. Sets high transparency for selected species only
+20. Comments scatter plot section
+21. Iterates through unique species
+22. Creates boolean mask for current species
+23. Begins scatter plot for current species
+24. Sets x-coordinates (bill length)
+25. Sets y-coordinates (bill depth)
+26. Labels points by species
+27. Sets transparency based on selection
+28. Sets point size
+29. Sets plot title
+30. Labels x-axis with units
+31. Labels y-axis with units
+32. Adds legend
+33. Adds light grid
+34. Displays the plot
+:::
+
+## Explorable Data Clusters {.smaller}
+
+### Live Output
+```{ojs}
+//| echo: false
+viewof feature1 = Inputs.select(
+  ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g'],
+  { value: 'bill_length_mm', label: 'X-axis feature:' }
+)
+
+viewof feature2 = Inputs.select(
+  ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g'],
+  { value: 'bill_depth_mm', label: 'Y-axis feature:' }
+)
+
+viewof n_clusters_penguins = Inputs.range([2, 5], {
+  step: 1,
+  value: 3,
+  label: "Number of clusters:"
+})
+```
+:::
+
+```{pyodide}
+#| autorun: true
+#| echo: false
+#| input:
+#|   - feature1
+#|   - feature2
+#|   - n_clusters_penguins
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+# Load and prepare data
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv')
+penguins = penguins.dropna()
+
+# Select and scale features
+X = penguins[[feature1, feature2]]
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Perform clustering
+kmeans = KMeans(n_clusters=n_clusters_penguins, random_state=42)
+clusters = kmeans.fit_predict(X_scaled)
+
+# Create plot
+plt.figure(figsize=(10, 6))
+scatter = plt.scatter(penguins[feature1], penguins[feature2], 
+                     c=clusters, cmap='viridis', 
+                     alpha=0.6, s=100)
+
+# Add cluster centers
+centers_orig = scaler.inverse_transform(kmeans.cluster_centers_)
+plt.scatter(centers_orig[:, 0], centers_orig[:, 1], 
+           c='red', marker='x', s=200, linewidths=3, 
+           label='Cluster Centers')
+
+plt.title(f'Palmer Penguins Clusters\n{feature1} vs {feature2}')
+plt.xlabel(feature1.replace('_', ' ').title())
+plt.ylabel(feature2.replace('_', ' ').title())
+plt.legend(*scatter.legend_elements(), title="Clusters")
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Print cluster sizes
+cluster_sizes = pd.Series(clusters).value_counts().sort_index()
+print("\nCluster sizes:")
+for i, size in enumerate(cluster_sizes):
+    print(f"Cluster {i}: {size} penguins")
+```
+
+
+### Markdown Source
+
+```{{ojs}}
+//| echo: false # <1>
+viewof feature1 = Inputs.select( # <2>
+ ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g'], # <3>
+ { value: 'bill_length_mm', label: 'X-axis feature:' } # <4>
+)
+viewof feature2 = Inputs.select( # <5>
+ ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g'], # <6>
+ { value: 'bill_depth_mm', label: 'Y-axis feature:' } # <7>
+)
+viewof n_clusters_penguins = Inputs.range([2, 5], { # <8>
+step: 1, # <9>
+value: 3, # <10>
+label: "Number of clusters:" # <11>
+})
+```
+1. Hides the code cell from output
+2. Creates first dropdown for X-axis feature selection
+3. Lists available penguin measurements for X-axis
+4. Sets default X-axis to bill length and adds label
+5. Creates second dropdown for Y-axis feature selection
+6. Lists available penguin measurements for Y-axis
+7. Sets default Y-axis to bill depth and adds label
+8. Creates range slider for number of clusters between 2 and 5
+9. Sets increment step size to 1
+10. Sets initial number of clusters to 3
+11. Adds label for cluster selection
+
+```{{pyodide}}
+#| autorun: true # <1>
+#| echo: false # <2>
+#| input: # <3>
+#| - feature1 # <4>
+#| - feature2 # <5>
+#| - n_clusters_penguins # <6>
+import pandas as pd # <7>
+import matplotlib.pyplot as plt # <8>
+from sklearn.cluster import KMeans # <9>
+from sklearn.preprocessing import StandardScaler # <10>
+# Load and prepare data # <11>
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv') # <12>
+penguins = penguins.dropna() # <13>
+# Select and scale features # <14>
+X = penguins[[feature1, feature2]] # <15>
+scaler = StandardScaler() # <16>
+X_scaled = scaler.fit_transform(X) # <17>
+# Perform clustering # <18>
+kmeans = KMeans(n_clusters=n_clusters_penguins, random_state=42) # <19>
+clusters = kmeans.fit_predict(X_scaled) # <20>
+# Create plot # <21>
+plt.figure(figsize=(10, 6)) # <22>
+scatter = plt.scatter(penguins[feature1], penguins[feature2], # <23>
+ c=clusters, cmap='viridis', # <24>
+ alpha=0.6, s=100) # <25>
+# Add cluster centers # <26>
+centers_orig = scaler.inverse_transform(kmeans.cluster_centers_) # <27>
+plt.scatter(centers_orig[:, 0], centers_orig[:, 1], # <28>
+ c='red', marker='x', s=200, linewidths=3, # <29>
+ label='Cluster Centers') # <30>
+plt.title(f'Palmer Penguins Clusters\n{feature1} vs {feature2}') # <31>
+plt.xlabel(feature1.replace('_', ' ').title()) # <32>
+plt.ylabel(feature2.replace('_', ' ').title()) # <33>
+plt.legend(*scatter.legend_elements(), title="Clusters") # <34>
+plt.grid(True, alpha=0.3) # <35>
+plt.show() # <36>
+# Print cluster sizes # <37>
+cluster_sizes = pd.Series(clusters).value_counts().sort_index() # <38>
+print("\nCluster sizes:") # <39>
+for i, size in enumerate(cluster_sizes): # <40>
+ print(f"Cluster {i}: {size} penguins") # <41>
+```
+1. Automatically runs when inputs change
+2. Hides code from output
+3. Specifies input parameters section
+4. Declares first feature as input
+5. Declares second feature as input
+6. Declares number of clusters as input
+7. Imports pandas for data handling
+8. Imports matplotlib for plotting
+9. Imports KMeans clustering algorithm
+10. Imports StandardScaler for feature scaling
+11. Comments data loading section
+12. Loads penguins dataset
+13. Removes rows with missing values
+14. Comments feature preparation section
+15. Selects user-specified features
+16. Initializes scaler object
+17. Scales selected features
+18. Comments clustering section
+19. Initializes KMeans with user-specified clusters
+20. Performs clustering and gets labels
+21. Comments plot creation section
+22. Creates new figure with specified size
+23. Creates scatter plot of selected features
+24. Colors points by cluster and sets colormap
+25. Sets transparency and point size
+26. Comments center plotting section
+27. Transforms cluster centers back to original scale
+28. Plots cluster centers
+29. Sets center marker style and size
+30. Adds label for centers
+31. Sets plot title with feature names
+32. Sets x-axis label
+33. Sets y-axis label
+34. Adds cluster legend
+35. Adds light grid
+36. Displays plot
+37. Comments cluster size section
+38. Calculates size of each cluster
+39. Prints header for cluster sizes
+40. Iterates through clusters
+41. Prints size of each cluster
+
+:::
+
+
+## Explorable Structured Programming {.smaller}
+
+:::{.panel-tabset}
+### Live Output
+```{ojs}
+//| echo: false
+viewof operation = Inputs.select(
+  ['square', 'cube', 'double', 'half'], 
+  {value: 'square', label: "Operation: "}
+)
+
+viewof range_end = Inputs.range([1, 20], {
+  step: 1,
+  value: 5,
+  label: "Range end: "
+})
+```
+
+```{pyodide}
+#| autorun: true
+#| edit: false
+#| echo: false
+#| 
+#| input:
+#|   - operation
+#|   - range_end
+
+operations = {
+    'square': lambda x: x**2,
+    'cube': lambda x: x**3,
+    'double': lambda x: x*2,
+    'half': lambda x: x/2
+}
+
+result = [operations[operation](x) for x in range(range_end)]
+print(f"Python code: [operations['{operation}'](x) for x in range({range_end})]")
+print(f"Result: {result}")
+```
+### Markdown Source
+```{{ojs}}
+viewof operation = Inputs.select( # <1>
+ ['square', 'cube', 'double', 'half'], # <2>
+ {value: 'square', label: "Operation: "} # <3>
+)
+viewof range_end = Inputs.range([1, 20], { # <4>
+step: 1, # <5>
+value: 5, # <6>
+label: "Range end: " # <7>
+})
+```
+1. Creates a dropdown select input for mathematical operations
+2. Defines the list of available operations
+3. Sets initial value to 'square' and adds a label
+4. Creates a range slider for the end value between 1 and 20
+5. Sets the increment step size to 1
+6. Sets the initial value to 5
+7. Adds a descriptive label for the range input
+
+```{{pyodide}}
+#| autorun: true # <1>
+#| edit: false # <2>
+#| echo: false # <3>
+#| # <4>
+#| input: # <5>
+#| - operation # <6>
+#| - range_end # <7>
+operations = { # <8>
+ 'square': lambda x: x**2, # <9>
+ 'cube': lambda x: x**3, # <10>
+ 'double': lambda x: x*2, # <11>
+ 'half': lambda x: x/2 # <12>
+}
+result = [operations[operation](x) for x in range(range_end)] # <13>
+print(f"Python code: [operations['{operation}'](x) for x in range({range_end})]") # <14>
+print(f"Result: {result}") # <15>
+```
+1. Automatically runs the cell when inputs change
+2. Prevents editing of the code cell
+3. Hides the code cell from output
+4. Empty line in YAML header
+5. Specifies input parameters section
+6. Declares operation as first input parameter
+7. Declares range_end as second input parameter
+8. Creates dictionary of mathematical operations
+9. Defines square operation as lambda function
+10. Defines cube operation as lambda function
+11. Defines double operation as lambda function
+12. Defines half operation as lambda function
+13. Applies selected operation to range using list comprehension
+14. Prints the Python code being executed
+15. Prints the resulting list after applying the operation
+:::
+
+
+## Explorable Unstructured Programming {.smaller}
+{{< countdown "02:00" top="70px" right="5px">}}
+
+:::{.panel-tabset}
+### Live Output
+
+```{pyodide}
+# Let's classify the weather
+temperature = 101
+
+if temperature > 90:
+    print('It is hot outside')
+elif temperature > 70:
+    print('It is warm outside')
+elif weather > 50:
+    # error here!
+    print('It is cool outside')
+else:
+    print('Wear a parka')
+```
+
+
+### Markdown Source
+
+```{{pyodide}}
+# Let's classify the weather # <1>
+temperature = 101 # <2>
+if temperature > 90: # <3>
+ print('It is hot outside') # <4>
+elif temperature > 70: # <5>
+ print('It is warm outside') # <6>
+elif weather > 50: # <7>
+ print('It is cool outside') # <8>
+else: # <9>
+ print('Wear a parka') # <10>
+```
+1. Comments describing the purpose of the code
+2. Initializes temperature variable with value 101
+3. First condition: checks if temperature is above 90
+4. Prints hot weather message if first condition is true
+5. Second condition: checks if temperature is above 70 (if first condition was false)
+6. Prints warm weather message if second condition is true
+7. Third condition: checks if weather is above 50 (if first and second conditions were false)
+8. Prints cool weather message if third condition is true
+9. Else block for when all conditions are false (temperature <= 50)
+10. Prints cold weather message if all conditions are false
+:::
+
+
+## Exercising the Mind
+
+::::{.panel-tabset}
+### Live Output
+Filter the penguins dataset to show only Gentoo penguins with body mass greater than 5000g:
+
+```{pyodide}
+#| setup: true
+#| exercise: ex_penguins
+#| echo: false
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+# Load and prepare data
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv')
+penguins = penguins.dropna()
+```
+
+```{pyodide}
+#| exercise: ex_penguins
+filtered_df = penguins[______]
+filtered_df
+```
+
+```{pyodide}
+#| exercise: ex_penguins
+#| check: true
+correct_answer = penguins[(penguins['species'] == 'Gentoo') & (penguins['body_mass_g'] > 5000)]
+if len(result) == len(correct_answer) and all(result.index == correct_answer.index):
+    feedback = {
+        "correct": True,
+        "message": "Perfect! You correctly filtered for Gentoo penguins over 5000g."
+    }
+else:
+    feedback = {
+        "correct": False,
+        "message": "Not quite. Make sure you're using both conditions: species=='Gentoo' and body_mass_g>5000"
+    }
+feedback
+```
+
+::: {.hint exercise="ex_penguins"}
+Use boolean indexing with & for combining conditions:
+```python
+df[(condition1) & (condition2)]
+```
+:::
+::: {.solution exercise="ex_penguins"}
+Use boolean indexing with & for combining conditions:
+```python
+penguins[(penguins['species'] == 'Gentoo') & (penguins['body_mass_g'] > 5000)]
+```
+:::
+### Markdown Source
+```{{pyodide}}
+#| setup: true # <1>
+#| exercise: ex_penguins # <2>
+#| echo: false # <3>
+import pandas as pd # <4>
+import numpy as np # <5>
+from sklearn.preprocessing import StandardScaler # <6>
+# Load and prepare data # <7>
+penguins = pd.read_csv('https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv') # <8>
+penguins = penguins.dropna() # <9>
+```
+1. Marks this as a setup cell to run before the exercise
+2. Associates this cell with the 'ex_penguins' exercise
+3. Hides the code cell from output
+4. Imports pandas for data manipulation
+5. Imports numpy for numerical operations
+6. Imports StandardScaler from scikit-learn
+7. Comments data loading step
+8. Loads penguins dataset from URL
+9. Removes rows with missing values
+
+```{{pyodide}}
+#| exercise: ex_penguins # <1>
+filtered_df = penguins[______] # <2>
+filtered_df # <3>
+```
+1. Associates this cell with the 'ex_penguins' exercise
+2. Creates placeholder for filtering conditions
+3. Displays the filtered dataframe
+
+```{{pyodide}}
+#| exercise: ex_penguins # <1>
+#| check: true # <2>
+correct_answer = penguins[(penguins['species'] == 'Gentoo') & (penguins['body_mass_g'] > 5000)] # <3>
+if len(result) == len(correct_answer) and all(result.index == correct_answer.index): # <4>
+ feedback = { # <5>
+ "correct": True, # <6>
+ "message": "Perfect! You correctly filtered for Gentoo penguins over 5000g." # <7>
+ }
+else: # <8>
+ feedback = { # <9>
+ "correct": False, # <10>
+ "message": "Not quite. Make sure you're using both conditions: species=='Gentoo' and body_mass_g>5000" # <11>
+ }
+feedback # <12>
+```
+1. Associates this cell with the 'ex_penguins' exercise
+2. Marks this as a check cell for verification
+3. Creates correct answer using both filtering conditions
+4. Checks if result matches correct answer in length and indices
+5. Creates feedback dictionary for correct answer
+6. Sets correct status to True
+7. Provides success message
+8. Starts else block for incorrect answers
+9. Creates feedback dictionary for incorrect answer
+10. Sets correct status to False
+11. Provides hint message for incorrect answer
+12. Returns feedback dictionary
+::::
+
+
+
+
+## Explorable Design Patterns
+
+1. **Progressive Disclosure**
+   - Start simple
+   - Add complexity gradually
+   - Layer concepts
+
+2. **Direct Manipulation**
+   - Interactive variables
+   - Real-time updates
+   - Visual feedback
+
+3. **Multiple Representations**
+   - Code
+   - Visualizations
+   - Numerical output
+
+## Best Practices
+
+1. **Clear Relationships**
+   - Show how variables affect outcomes
+   - Highlight connections
+   - Demonstrate causality
+
+2. **Bounded Exploration**
+   - Set meaningful limits
+   - Prevent invalid states
+   - Guide discovery
+
+3. **Multiple Entry Points**
+   - Different learning styles
+   - Various complexity levels
+   - Multiple paths to understanding
+
+## Demos
+
+- We have a few more demos to show you!
+  - [Course Webpage with Slides](https://tutorials.thecoatlessprofessor.com/next-gen-data-science-education-wasm/)
+  - [Standalone document](https://tutorials.thecoatlessprofessor.com/next-gen-data-science-education-wasm/tutorials/demo-lab.html)
+- Source code available on [GitHub](https://github.com/coatless-tutorials/next-gen-data-science-education-wasm).
+
+
+## Implementation Tips - Installation
+
+1. **Install Quarto**: <https://quarto.org>
+
+2. **Install Quarto Live & Drop Extensions**
+   ```bash
+   # Install Quarto Extensions
+   quarto add r-wasm/quarto-live
+   quarto add r-wasm/quarto-drop
+   ```
+
+:::{.callout-important}
+Quarto extensions are installed only in the current project scope. 
+For each new project, you will need to install the extensions again.
+:::
+
+## Implementation Tips - Document
+
+1. **Document Setup**
+   ```yaml
+   ---
+   format: 
+        live-revealjs:
+            scrollable: true
+            smaller: true
+            pyodide:
+                packages: ['numpy', 'matplotlib']
+   ---
+   ```
+
+2. **Tangle Integration**
+   ````md
+   ```{{ojs}}
+   import {Tangle} from "@mbostock/tangle"
+   viewof var = Inputs.range([min, max], {
+     step: 0.1,
+     value: initial,
+     label: "Variable:"
+   })
+   varTangle = Inputs.bind(Tangle({min: min, max: max, step: 0.1}), viewof var)
+   ```
+   ````
+
+3. **Python Integration**
+   ````md
+   ```{{pyodide}}
+   #| input:
+   #|   - var
+   # Your Python code using var
+   ```
+   ````
+
+## And that in-slide IDE ... 
+
+1. **Document Header Setup**
+   ```{.yaml}
+   #| code-lines-highlight: 6-8,11-12
+   ---
+   format: 
+        live-revealjs:
+            scrollable: true
+            smaller: true
+            drop: 
+                engine: pyodide
+                packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+            pyodide:
+                packages: ['matplotlib', 'numpy', 'pandas', 'seaborn']
+    revealjs-plugins:
+    - drop
+   ---
+   ```
+
+
+
+## Resources
+
+- [Bret Victor's Explorable Explanations](http://worrydream.com/ExplorableExplanations/)
+- [Observable Documentation](https://observablehq.com/@observablehq/observable-for-jupyter-users)
+   - [Input Types](https://observablehq.com/framework/inputs/)
+- [Pyodide Documentation](https://pyodide.org/en/stable/)
+    - [Built-in Python Packages](https://pyodide.org/en/stable/usage/packages-in-pyodide.html/)
+- [Quarto Live Documentation](https://r-wasm.github.io/quarto-live)
+
+## Thank You!
+
+Questions?
+
+Keep in touch:
+
+- GitHub: [@coatless](https://github.com/coatless)
+- BlueSky: [@coatless.bsky.social](https://bsky.app/profile/coatless.bsky.social)
+- Mastodon: [@coatless@mastodon.social](https://mastodon.social/@coatless)
+- Twitter/X: [@axiomsofxyz](https://twitter.com/axiomsofxyz)
+- LinkedIn: [jamesbalamuta](https://www.linkedin.com/in/jamesbalamuta/)
