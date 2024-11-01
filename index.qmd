@@ -37,7 +37,7 @@ code-annotations: hover
 :::
 
 ::: {.column width="55%"}
--   Founder, HJJB LLC + Stealth AI Startups
+-   Founder, HJJB LLC + Stealth Startups
 -   [Adjunct Lecturer, Department of Statistics \@ Stanford](https://profiles.stanford.edu/james-balamuta)
 -   Former Visiting Assistant Prof. & Graduate Student Instructor, Department of Statistics \@ UIUC
 -   Builder of Quarto Extensions
